@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  {# input: obj project #}
+  {% set build_types = ['Debug', 'Release'] -%}
+  {% set platforms = ['ARM', 'x86', 'x64'] -%}
+  {% set cfgs = ['ActiveCfg', 'Build.0'] -%}
+  <ItemGroup Label="ProjectConfigurations">
+    {% for platform in platforms -%}
+    {% for build_type in build_types -%}
+    <ProjectConfiguration Include="{{ build_type }}|{{ platform }}">
+      <Configuration>{{ build_type }}</Configuration>
+      <Platform>{{ platform }}</Platform>
+    </ProjectConfiguration>
+    {%- endfor %}
+    {%- endfor %}
+  </ItemGroup>
+  
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{{ project.guid }}</ProjectGuid>
+    <Keyword>Linux</Keyword>
+    <RootNamespace>{{ project.name }}</RootNamespace>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <ApplicationType>Linux</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
+    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
+    <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+  </PropertyGroup>
+  
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  {% for platform in platforms -%}
+  {% for build_type in build_types -%}
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='{{ build_type }}|{{ platform }}'" Label="Configuration">
+    <UseDebugLibraries>{{ 'true' if build_type == 'Debug' else 'false' }}</UseDebugLibraries>
+  </PropertyGroup>
+  {%- endfor %}
+  {%- endfor %}
+  
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  {% for group in project.groups -%}
+  <ItemGroup>
+    {% for file_obj in project.files -%}
+    {% if file_obj.group_name == group.name -%}
+    <{{ group.name }} Include="{{ file_obj.abs_path }}" />
+    {%- endif %}
+    {% endfor %}
+  </ItemGroup>
+  {%- endfor %}
+  <ItemDefinitionGroup />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  
+</Project>
