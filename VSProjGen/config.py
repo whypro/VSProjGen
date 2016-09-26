@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
+
 
 class Config(object):
     ext_exclude = [
@@ -15,7 +17,6 @@ class Config(object):
         '.git',
         '.svn',
     ]
-    # src_path = 'E:\\SHServerSource\\sync\\shs\\src'
-    src_path = 'E:\\Codes\\My Github\\Conan'
-    output_path = '.\\output1'
+    src_path = 'E:\\SHServerSource\\sync\\shs\\src'
+    output_path = '.\\output'
     solution_name = 'T7'

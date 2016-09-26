@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from VSProjGen import GroupMap, File, Project, TemplateRender, Solution, Project
+from . import GroupMap, File, Project, TemplateRender, Solution, Project
 
 
 class Test(object):

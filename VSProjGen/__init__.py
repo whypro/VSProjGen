@@ -7,7 +7,7 @@ from collections import defaultdict
 from jinja2 import Environment, Template, FileSystemLoader
 import scandir
 
-from config import Config
+from .config import Config
 
 
 config = Config()

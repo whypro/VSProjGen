@@ -14,7 +14,7 @@
     <Name>VSProjGen</Name>
     <RootNamespace>VSProjGen</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
-    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
     <InterpreterVersion>2.7</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -26,28 +26,26 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="config.py">
+    <Compile Include="VSProjGen\config.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="test.py">
+    <Compile Include="VSProjGen\test.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="vs_proj_gen.py" />
-    <Compile Include="__init__.py" />
+    <Compile Include="VSProjGen\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="README.md">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="template\sln.template" />
     <Content Include="template\vcxproj.filters.template" />
     <Content Include="template\vcxproj.template" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="VSProjGen\" />
     <Folder Include="template\" />
   </ItemGroup>
   <PropertyGroup>

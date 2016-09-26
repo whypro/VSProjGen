@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import time
 
-from VSProjGen import VSProjectGenerator
+from VSProjGen import VSProjectGenerator, config
 
 
 if __name__ == '__main__':
