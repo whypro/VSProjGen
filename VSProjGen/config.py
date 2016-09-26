@@ -19,9 +19,9 @@ class Config(object):
     ]
    
     # 源代码目录
-    src_path = 'Z:\\sync\\shs\\src'
+    src_path = 'E:\\SHServerSource\\sync\\shs\\src'
     # 解决方案自动生成目录
-    output_path = 'outputt7'
+    output_path = 'T7'
     # 解决方案名称
     solution_name = 'T7'
     # 是否为但工程，True 则对于源代码目录中的每个子目录建立工程文件，False 则将所有目录加入同一个工程

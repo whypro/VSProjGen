@@ -40,6 +40,9 @@
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
+    <Content Include="README.md" />
     <Content Include="template\sln.template" />
     <Content Include="template\vcxproj.filters.template" />
     <Content Include="template\vcxproj.template" />
