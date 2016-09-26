@@ -55,9 +55,13 @@ class Project(object):
         self.filters = set()
         self.guid = '{' + str(uuid.uuid4()) + '}'
 
-    def add_file(self, file_obj):
+    def add_file(self, file_obj, root_dir=False):
         if file_obj not in self.files:
-            file_obj.abs_path = os.path.join(config.src_path, self.name, file_obj.path)
+            if root_dir:
+                file_obj.abs_path = os.path.join(config.src_path, file_obj.path)
+            else:
+                file_obj.abs_path = os.path.join(config.src_path, self.name, file_obj.path)
+
             self.files.add(file_obj)
             group = Group(file_obj.group_name)
             self.groups.add(group)
@@ -153,30 +157,46 @@ class File(object):
 class VSProjectGenerator(object):
     
     def __init__(self, config):
-        self.src_path = config.src_path
-        self.output_path = config.output_path
-        self.solution_name = config.solution_name
-        self.dir_exclude = config.dir_exclude
-        self.ext_exclude = config.ext_exclude
+        self.config = config
 
     def generate(self):
-        solution = Solution(self.solution_name)
-        #count = 0
-        for entry in scandir.scandir(self.src_path):
-            if entry.is_dir():
-                if entry.name in self.dir_exclude:
+        solution = Solution(self.config.solution_name)
+        default_project = Project(self.config.solution_name)
+
+        if self.config.single_project:
+            # 单工程解决方案
+            for file_path in self.walk(self.config.src_path):
+                if os.path.splitext(os.path.basename(file_path))[-1] in self.config.ext_exclude:
                     continue
-                print 'Generating project', entry.name, '...' 
-                project = Project(entry.name)
-                for file_path in self.walk(entry.path):
-                    if os.path.splitext(os.path.basename(file_path))[-1] in self.ext_exclude:
+                path = os.path.relpath(file_path, self.config.src_path)
+                file_obj = File(path)
+                default_project.add_file(file_obj, root_dir=True)
+            solution.add_project(default_project)
+        else:
+            # 多工程解决方案
+            for entry in scandir.scandir(self.config.src_path):
+                if entry.is_dir():
+                    if entry.name in self.config.dir_exclude:
                         continue
-                    path = os.path.relpath(file_path, os.path.join(self.src_path, entry.name))
+                    print 'Generating project', entry.name, '...' 
+                    project = Project(entry.name)
+                    for file_path in self.walk(entry.path):
+                        if os.path.splitext(os.path.basename(file_path))[-1] in self.config.ext_exclude:
+                            continue
+                        path = os.path.relpath(file_path, os.path.join(self.config.src_path, entry.name))
+                        file_obj = File(path)
+                        project.add_file(file_obj)
+                    solution.add_project(project)
+                elif entry.is_file():
+                    if os.path.splitext(entry.name)[-1] in self.config.ext_exclude:
+                        continue
+                    path = os.path.relpath(entry.path, self.config.src_path)
                     file_obj = File(path)
-                    project.add_file(file_obj)
-                solution.add_project(project)
+                    default_project.add_file(file_obj, root_dir=True)
+            solution.add_project(default_project)
+
         tr = TemplateRender()
-        solution.export(tr, self.output_path)
+        solution.export(tr, self.config.output_path)
 
     #def walk(self):
     #    self._walk(self.src_path)
