@@ -24,14 +24,14 @@
 
 ## 用法
 
-1.  修改 `config.py`
+1.  修改 `config.json`
 	- `ext_exclude` 排除特定扩展名的文件，例如 '.o'
 	- `dir_exclude` 排除特定名称的目录，例如 '.svn'
 	- `src_path` 源代码目录
 	- `output_path` 解决方案输出目录
 	- `solution_name` 解决方案名称
-	- `single_project` 是否为单工程，True 则对于源代码目录中的每个子目录建立工程文件，False 则将所有目录加入同一个工程
-2. 运行 `python VSProjGen.py`
-3. 用 Visual Studio 打开生成的解决方案文件 `.sln`，耐心等待 Visual Studio 更新完成。
+	- `single_project` 是否为单工程，true 则对于源代码目录中的每个子目录建立工程文件，false 则将所有目录加入同一个工程
+2. 运行 `vs_proj_gen.exe` 或者 `python vs_proj_gen.py`（后者需要安装 python2.7 和 scandir 依赖库）
+3. 用 Visual Studio 打开生成的解决方案文件 `.sln`，耐心等待 Visual Studio 更新完成
 4. 享受用强大的 IDE CODING 的乐趣吧
 
