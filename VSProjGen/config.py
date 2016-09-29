@@ -4,6 +4,10 @@ import os
 import json
 
 
+__author__  = 'haoyuwang'
+__date__ = '2016-09-29'
+
+
 class Config(object):
     
     CONFIG_FILE = 'config.json'

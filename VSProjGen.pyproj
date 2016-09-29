@@ -26,6 +26,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="setup.py" />
     <Compile Include="VSProjGen\config.py">
       <SubType>Code</SubType>
     </Compile>

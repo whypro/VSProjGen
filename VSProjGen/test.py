@@ -4,6 +4,10 @@ from __future__ import unicode_literals
 from . import GroupMap, File, Project, TemplateRender, Solution, Project
 
 
+__author__  = 'haoyuwang'
+__date__ = '2016-09-29'
+
+
 class Test(object):
     def test_group_map(self):
         print GroupMap.get('.c')

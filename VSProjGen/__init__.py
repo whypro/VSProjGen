@@ -9,6 +9,9 @@ import scandir
 
 from .config import Config
 
+__author__  = 'haoyuwang'
+__date__ = '2016-09-29'
+
 
 config = Config()
 
@@ -250,9 +253,6 @@ class VSProjectGenerator(object):
 
         tr = TemplateRender()
         solution.export(tr, config['output_path'])
-
-    #def walk(self):
-    #    self._walk(self.src_path)
 
     def walk(self, dirname):
         file_list = []
