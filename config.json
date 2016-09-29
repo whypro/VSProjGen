@@ -1,0 +1,26 @@
+{
+	"ext_exclude": 
+	[
+        ".d",
+        ".o",
+        ".tdr"
+    ],
+
+    "dir_exclude": 
+	[
+        "shadow",
+        "tools",
+        "dep",
+        "lib",
+        ".git",
+        ".svn"
+    ],
+   
+    "src_path": "E:\\SHServerSource\\sync\\shs\\src",
+
+    "output_path": "T7aaa",
+
+    "solution_name": "T7",
+
+    "single_project": false
+}

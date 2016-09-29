@@ -2,13 +2,13 @@
 from __future__ import unicode_literals
 import time
 
-from VSProjGen import VSProjectGenerator, config
+from VSProjGen import VSProjectGenerator
 
 
 if __name__ == '__main__':
 
     begin = time.time()
-    vspg = VSProjectGenerator(config)
+    vspg = VSProjectGenerator()
     vspg.generate()
     print time.time() - begin
 

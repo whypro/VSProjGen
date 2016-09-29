@@ -113,9 +113,9 @@ class Project(object):
     def add_file(self, file_obj, root_dir=False):
         if file_obj not in self.files:
             if root_dir:
-                file_obj.abs_path = os.path.join(config.src_path, file_obj.path)
+                file_obj.abs_path = os.path.join(config['src_path'], file_obj.path)
             else:
-                file_obj.abs_path = os.path.join(config.src_path, self.name, file_obj.path)
+                file_obj.abs_path = os.path.join(config['src_path'], self.name, file_obj.path)
 
             self.files.add(file_obj)
             group = Group(file_obj.group_name)
@@ -130,6 +130,7 @@ class Project(object):
 
         content = template_render.render('vcxproj.template', project=self)
         export_path = os.path.join(output_path, self.name+'.vcxproj')
+        print export_path
         with open(export_path, 'w') as f:
             f.write(content.encode('utf-8'))
 
@@ -210,48 +211,45 @@ class File(object):
 
 
 class VSProjectGenerator(object):
-    
-    def __init__(self, config):
-        self.config = config
 
     def generate(self):
-        solution = Solution(self.config.solution_name)
-        default_project = Project(self.config.solution_name)
+        solution = Solution(config['solution_name'])
+        default_project = Project(config['solution_name'])
 
-        if self.config.single_project:
+        if config['single_project']:
             # 单工程解决方案
-            for file_path in self.walk(self.config.src_path):
-                if os.path.splitext(os.path.basename(file_path))[-1] in self.config.ext_exclude:
+            for file_path in self.walk(config['src_path']):
+                if os.path.splitext(os.path.basename(file_path))[-1] in config['single_project']:
                     continue
-                path = os.path.relpath(file_path, self.config.src_path)
+                path = os.path.relpath(file_path, config['src_path'])
                 file_obj = File(path)
                 default_project.add_file(file_obj, root_dir=True)
             solution.add_project(default_project)
         else:
             # 多工程解决方案
-            for entry in scandir.scandir(self.config.src_path):
+            for entry in scandir.scandir(config['src_path']):
                 if entry.is_dir():
-                    if entry.name in self.config.dir_exclude:
+                    if entry.name in config['dir_exclude']:
                         continue
                     print 'Generating project', entry.name, '...' 
                     project = Project(entry.name)
                     for file_path in self.walk(entry.path):
-                        if os.path.splitext(os.path.basename(file_path))[-1] in self.config.ext_exclude:
+                        if os.path.splitext(os.path.basename(file_path))[-1] in config['ext_exclude']:
                             continue
-                        path = os.path.relpath(file_path, os.path.join(self.config.src_path, entry.name))
+                        path = os.path.relpath(file_path, os.path.join(config['src_path'], entry.name))
                         file_obj = File(path)
                         project.add_file(file_obj)
                     solution.add_project(project)
                 elif entry.is_file():
-                    if os.path.splitext(entry.name)[-1] in self.config.ext_exclude:
+                    if os.path.splitext(entry.name)[-1] in config['ext_exclude']:
                         continue
-                    path = os.path.relpath(entry.path, self.config.src_path)
+                    path = os.path.relpath(entry.path, config['src_path'])
                     file_obj = File(path)
                     default_project.add_file(file_obj, root_dir=True)
             solution.add_project(default_project)
 
         tr = TemplateRender()
-        solution.export(tr, self.config.output_path)
+        solution.export(tr, config['output_path'])
 
     #def walk(self):
     #    self._walk(self.src_path)
