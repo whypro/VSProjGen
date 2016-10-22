@@ -23,7 +23,7 @@
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
     <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
-    <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+    <LinuxProjectType>{FC1A4D80-50E9-41DA-9192-61C0DBAA00D2}</LinuxProjectType>
   </PropertyGroup>
   
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -31,6 +31,7 @@
   {% for build_type in build_types -%}
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='{{ build_type }}|{{ platform }}'" Label="Configuration">
     <UseDebugLibraries>{{ 'true' if build_type == 'Debug' else 'false' }}</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   {%- endfor %}
   {%- endfor %}
